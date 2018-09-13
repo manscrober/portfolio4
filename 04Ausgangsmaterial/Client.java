@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
 public class Client {
+	public static void main(String[] args) {
+        System.out.println("test");
+
+	}
 
 	public ArrayList<Book> borrowedBooks = new ArrayList();
 
@@ -27,8 +31,9 @@ public class Client {
 		}
 		borrowedBooks.remove (bookToReturn);
 	}
-	
-	public boolean isFavoriteCategory (String category) {
+
+
+    public boolean isFavoriteCategory (String category) {
 	    return favoriteCategories.contains (category);
 	}
 
