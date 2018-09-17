@@ -1,14 +1,23 @@
 import java.util.ArrayList;
 
 public class Book {
+    public static final String DEFAULT_AUTHOR="unknown";
     public String caption;
     public String category;
     public ArrayList<String> pageContent;
+    private String author;
     private boolean compactDisc;
 
+    public String getAuthor(){
+        return author;
+    }
+    public void setAuthor(String author){
+        this.author=author;
+    }
     public Book (String title) {
         this.caption = title;
         this.category = "Roman";
+        this.author=DEFAULT_AUTHOR;
         this.pageContent = new ArrayList<>();
     }
 

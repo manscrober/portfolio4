@@ -26,23 +26,23 @@ USER INSTRUCTIONS:
 
 #Book -> Library 
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Book greift auf books und clients in Library zu.
 
 #Book -> Client 
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Book greift auf borrowedBooks in Client zu.
 
 --------------------
 ## Kohäsion
 
-[] Niedrig
+[X] Niedrig
 [] Hoch
 
-Kurze Begründung:
+Kurze Begründung:addAndBorrowBook vs addAndBorrowCD,CDs als boolean in Büchern,
 
 --------------------
 ## Probleme
@@ -55,23 +55,24 @@ Kurze Begründung:
 
 #Client -> Library 
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Client greift auf clients in Library zu
 
 #Client -> Book
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Client greift auf caption in Book zu
 
 --------------------
 ## Kohäsion
 
-[] Niedrig
+[X] Niedrig
 [] Hoch
 
-Kurze Begründung:
+Kurze Begründung: Hinzufügen von clients aus Client-Objekten, obwohl in Library gespeichert,
+es gibt returnBook aber nicht returnCD. stattdessen wäre vielleicht besser (Namensgebung)
 
 --------------------
 ## Probleme
@@ -84,23 +85,24 @@ Kurze Begründung:
 
 #Library -> Client 
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Library greift auf borrowedBooks in client zu.
 
 #Library -> Book
 [] Lose Kopplung
-[] Enge Kopplung
+[X] Enge Kopplung
 
-Kurze Begründung:
+Kurze Begründung: Library greift auf caption und category in Book zu
 
 --------------------
 ## Kohäsion
 
-[] Niedrig
+[X] Niedrig
 [] Hoch
 
-Kurze Begründung:
+Kurze Begründung:Hinzufügen von clients nur aus Client-Objekten, obwohl in Library gespeichert.
+addBook, obwohl books public. Library selbst trägt als eigentlicher Focus des Projekts sehr wenig Funktionalität.
 
 --------------------
 ## Probleme
