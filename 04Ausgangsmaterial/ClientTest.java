@@ -1,24 +1,28 @@
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class ClientTest {
-
-    @org.junit.Before
-    public void setUp() throws Exception {
+    private Client client;
+    private Library library;
+    @Before
+    public void setUp(){
+        client = new Client("peter","baumstrasse 8");
+        library = new Library();
     }
-
-    @org.junit.Test
-    public void main() {
-    }
-
-    @org.junit.Test
+    @Test
     public void addToLibrary() {
+        client.addToLibrary(library);
+        assertArrayEquals(new Client[]{client},library.clients)
     }
 
-    @org.junit.Test
+    @Test
     public void returnBook() {
+
     }
 
-    @org.junit.Test
+    @Test
     public void isFavoriteCategory() {
     }
 }
