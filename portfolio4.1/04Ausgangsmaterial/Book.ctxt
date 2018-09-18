@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=title
+comment0.target=Book(java.lang.String)
+comment1.params=compactDisc
+comment1.target=void\ setCompactDisc(boolean)
+comment2.params=
+comment2.target=boolean\ isCompactDisc()
+comment3.params=libRary
+comment3.target=void\ deleteBook(Library)
+comment4.params=l\ CLIENT
+comment4.target=void\ addAndBorrowBook(Library,\ Client)
+comment5.params=l\ CLIENT
+comment5.target=void\ addAndBorrowCD(Library,\ Client)
+comment6.params=category
+comment6.target=boolean\ hasCategory(java.lang.String)
+comment7.params=text_of_page
+comment7.target=void\ addPage(java.lang.String)
+comment8.params=text
+comment8.target=boolean\ contains(java.lang.String)
+numComments=9
