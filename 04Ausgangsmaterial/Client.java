@@ -2,33 +2,38 @@ import java.util.ArrayList;
 
 public class Client {
 
-	public ArrayList<Book> borrowedBooks = new ArrayList();
+	private ArrayList<Item> borrowedItems;
 
-	public String name;
-	public String address;
-	public ArrayList<String> favoriteCategories = new ArrayList();
+	private String name;
+	private String address;
+	private ArrayList<String> favoriteCategories;
 
 	public Client (String name, String address) {
+	    borrowedItems = new ArrayList<>();
+	    favoriteCategories= new ArrayList<>();
 		this.name = name;
 		this.address = address;
 	}
 
-	public void addToLibrary (Library library) {
-		library.clients.add (this);
+	public String getName(){return name;}
+
+	public void borrowItem(Item item) {
+        if (item != null) {
+            borrowedItems.add(item);
+        }
+    }
+
+	public void returnItem (Item item) {
+		borrowedItems.remove (item);
 	}
 
-	public void returnBook (String title) {
-		Book bookToReturn = null;
-		for (Book book : borrowedBooks) {
-			if (book.caption.equals (title)) {
-				bookToReturn = book;
-				break;
-			}
-		}
-		borrowedBooks.remove (bookToReturn);
-	}
+	public boolean hasBorrowedItem(Item item){
+        return borrowedItems.contains(item);
+    }
 
-
+    public void addFavouriteCategory(String category){
+	    favoriteCategories.add(category);
+    }
     public boolean isFavoriteCategory (String category) {
 	    return favoriteCategories.contains (category);
 	}

@@ -9,169 +9,145 @@ public class Test {
 
     }
     public static final String EXAMPLE_CATEGORY = "fantasy";
-    public static final String DEFAULT_CATEGORY = "Roman";
     public static final String EXAMPLE_PAGE= "page1";
     public static final String EXAMPLE_AUTHOR = "Stephen King";
     public static final String EXAMPLE_TITLE = "testBook";
     public static final String EXAMPLE_NAME = "peter";
+    public static final String EXAMPLE_KEYWORD = "testKeyword";
     public static final String EXAMPLE_ADDRESS = "baustrasse 8";
     private Client client;
     private Library library;
     private Book testBook;
+    private CompactDisk testCD;
     @Before
     public void setUp(){
         client = new Client(EXAMPLE_NAME,EXAMPLE_ADDRESS);
         library = new Library();
         testBook = new Book(EXAMPLE_TITLE);
-        library.clients.add(client);
+        testCD = new CompactDisk(EXAMPLE_TITLE);
+        library.addClient(client);
+        
     }
 
-    //client
     @org.junit.Test
     public void addToLibrary() {
-        setUp();
-        library.clients.clear();
-        client.addToLibrary(library);
-        ArrayList<Client> correct = new ArrayList();
+        
+        ArrayList<Client> correct = new ArrayList<>();
         correct.add(client);
-        assertEquals(correct,library.clients);
-        assertEquals(client.name,library.clients.get(0).name);
+        assertEquals(correct,library.getClients());
+        assertEquals(client.getName(),library.getClients().get(0).getName());
 
-        client.addToLibrary(library);
-        assertNotEquals(correct,library.clients);
+        library.addClient(client);
+        assertEquals(correct,library.getClients());
 
     }
 
     @org.junit.Test
     public void returnBook() {
-        setUp();
-        client.borrowedBooks.clear();
+        library.addItem(testBook);
+        client.borrowItem(library.getAvailableItem(testBook.getTitle()));
+        assertTrue(client.hasBorrowedItem(testBook));
+        client.returnItem(testBook);
+        assertFalse(client.hasBorrowedItem(testBook));
 
-        client.borrowedBooks.add(testBook);
-        client.returnBook(EXAMPLE_TITLE);
-        assertTrue(client.borrowedBooks.isEmpty());
+        client.returnItem(testBook);
 
-        client.returnBook("nonExistingBook");
+        assertFalse(client.hasBorrowedItem(testBook));
+        assertTrue(library.itemBorrowedBy(testBook).isEmpty());
 
-        client.borrowedBooks.add(testBook);
-        client.returnBook("nonExistingBook");
-        assertEquals(testBook,client.borrowedBooks.get(0));
+
+        Item itemToBorrow=library.getAvailableItem(testBook.getTitle());
+        assertTrue(itemToBorrow!=null);
+        client.borrowItem(itemToBorrow);
+        client.returnItem(null);
+        assertTrue(client.hasBorrowedItem(itemToBorrow));
     }
 
     @org.junit.Test
     public void isFavoriteCategory() {
-        setUp();
-        client.favoriteCategories.clear();
-        client.favoriteCategories.add(EXAMPLE_CATEGORY);
-        assertTrue(client.isFavoriteCategory(EXAMPLE_CATEGORY));
-        assertFalse(client.isFavoriteCategory(EXAMPLE_CATEGORY+"invalidating category name extension"));
-        assertFalse(client.isFavoriteCategory(null));
-        client.favoriteCategories.clear();
         assertFalse(client.isFavoriteCategory(EXAMPLE_CATEGORY));
-        client.favoriteCategories.add(null);
+        client.addFavouriteCategory(EXAMPLE_CATEGORY);
+        assertTrue(client.isFavoriteCategory(EXAMPLE_CATEGORY));
+        assertFalse(client.isFavoriteCategory(EXAMPLE_CATEGORY+"anyNonEmptyString"));
+        assertFalse(client.isFavoriteCategory(null));
+        
+
+        client.addFavouriteCategory(null);
         assertTrue(client.isFavoriteCategory(null));
     }
 
-
-    //book
-    @org.junit.Test
-    public void setCompactDisc(){
-        setUp();
-        testBook.setCompactDisc(true);
-        assertTrue(testBook.isCompactDisc());
-        testBook.setCompactDisc(false);
-        assertFalse(testBook.isCompactDisc());
-    }
+//book
 
     @org.junit.Test
     public void deleteBook(){
-        setUp();
-        library.books.clear();
-        library.books.add(testBook);
-        testBook.deleteBook(library);
-        assertFalse(library.books.contains(testBook));
+        
+        library.addItem(testBook);
+        library.removeItem(testBook);
+        assertFalse(library.hasItem(testBook));
 
-        testBook.deleteBook(library);
-        library.books.add(testBook);
-        client.borrowedBooks.add(testBook);
-        testBook.deleteBook(library);
+        library.removeItem(testBook);
+        library.addItem(testBook);
+        client.borrowItem(testBook);
+        library.removeItem(testBook);
 
-        assertFalse(client.borrowedBooks.contains(testBook));
+        assertFalse(client.hasBorrowedItem(testBook));
     }
     @org.junit.Test
     public void addAndBorrowBook(){
-        setUp();
-        library.books.clear();
-        client.borrowedBooks.clear();
-        testBook.addAndBorrowBook(library,client);
-        assertTrue(library.books.contains(testBook));
-        assertTrue(client.borrowedBooks.contains(testBook));
-
-        library.books.clear();
-        client.borrowedBooks.clear();
-        testBook.setCompactDisc(true);
-        testBook.addAndBorrowCD(library,client);
-        assertTrue(library.books.contains(testBook));
-        assertTrue(client.borrowedBooks.contains(testBook));
-
-        library.books.clear();
-        client.borrowedBooks.clear();
-        testBook.setCompactDisc(false);
-        testBook.addAndBorrowCD(library,client);
-        assertFalse(library.books.contains(testBook));
-        assertFalse(client.borrowedBooks.contains(testBook));
+        library.addItem(testBook);
+        client.borrowItem(testBook);
+        assertTrue(library.hasItem(testBook));
+        assertTrue(client.hasBorrowedItem(testBook));
     }
 
     @org.junit.Test
-    public void hasCategory(){
-        setUp();
-        assertFalse(testBook.hasCategory(EXAMPLE_CATEGORY));
-        assertTrue(testBook.hasCategory(DEFAULT_CATEGORY));
-        testBook.category=EXAMPLE_CATEGORY;
-        assertTrue(testBook.hasCategory(EXAMPLE_CATEGORY));
-
+    public void addAndBorrowCD(){
+        library.addItem(testCD);
+        client.borrowItem(testCD);
+        assertTrue(library.hasItem(testCD));
+        assertTrue(client.hasBorrowedItem(testCD));
+    }
+    @org.junit.Test
+    public void testCategory(){
+        assertNotEquals(testBook.getCategory(), EXAMPLE_CATEGORY);
+        assertEquals(testBook.getCategory(), Item.DEFAULT_CATEGORY);
+        testBook.setCategory(EXAMPLE_CATEGORY);
+        assertEquals(testBook.getCategory(), EXAMPLE_CATEGORY);
     }
 
     @org.junit.Test
     public void addPage(){
-        setUp();
-        testBook.addPage(EXAMPLE_PAGE);
-        assertTrue(testBook.pageContent.contains(EXAMPLE_PAGE));
-        assertTrue(testBook.contains(EXAMPLE_PAGE));
-        testBook.pageContent.clear();
         assertFalse(testBook.contains(EXAMPLE_PAGE));
+        testBook.addPage(EXAMPLE_PAGE);
+        assertTrue(testBook.contains(EXAMPLE_PAGE));
+        assertTrue(testBook.contains(EXAMPLE_PAGE));
     }
 
     //library
     @org.junit.Test
-    public void addBook(){
-        setUp();
-        library.books.clear();
-        library.addBook(testBook);
-        assertTrue(library.books.contains(testBook));
-    }
-    @org.junit.Test
-    public void printListOfBooks(){
-        setUp();
-        library.printListOfBooks();
-        library.addBook(testBook);
-        library.printListOfBooks();
-        testBook.setCompactDisc(true);
-        library.printListOfBooks();
+    public void printListOfItems(){
+        
+
+        library.addItem(testBook);
+        library.printListOfItems();
+        testBook.addKeyword(EXAMPLE_KEYWORD);
+        library.printListOfItems();
+        testCD.setAuthor(EXAMPLE_AUTHOR);
+        testCD.addKeyword(EXAMPLE_KEYWORD);
+        testCD.addKeyword(EXAMPLE_KEYWORD + "2");
+        library.addItem(testCD);
+        library.printListOfItems();
     }
     @org.junit.Test
     public void testAuthor(){
         testBook.setAuthor(EXAMPLE_AUTHOR);
         assertEquals(EXAMPLE_AUTHOR,testBook.getAuthor());
-        library.addBook(testBook);
-        library.printListOfBooks();
     }
     @org.junit.Test
     public void bookBorrowedBy(){
-        setUp();
-        assertFalse(library.bookBorrowedBy(testBook.caption).contains(client.name));
-        testBook.addAndBorrowBook(library,client);
-        assertTrue(library.bookBorrowedBy(testBook.caption).contains(client.name));
-
+        assertFalse(library.itemBorrowedBy(testBook).contains(client.getName()));
+        library.addItem(testBook);
+        client.borrowItem(testBook);
+        assertTrue(library.itemBorrowedBy(testBook).contains(client.getName()));
     }
 }
