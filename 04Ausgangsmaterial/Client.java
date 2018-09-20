@@ -16,7 +16,9 @@ public class Client {
 	}
 
 	public String getName(){return name;}
-
+    public int borrowedItemCount(){
+	    return borrowedItems.size();
+    }
 	public void borrowItemFromLibrary(String title, Library library) {
 		Item item = library.lendItem(title,this);
         if (item != null) {

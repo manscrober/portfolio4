@@ -134,4 +134,15 @@ public class Test {
         client.borrowItemFromLibrary(testBook.getTitle(),library);
         assertTrue(library.itemBorrowedBy(testBook.getTitle()).contains(client.getName()));
     }
+    @org.junit.Test
+    public void clientsWithMostBorrowedItems(){
+        library.addClient(client);
+        Client client2 = new Client("ralf","steinstrasse");
+        library.addItem(testBook);
+        library.addItem(testCD);
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
+        client2.borrowItemFromLibrary(testBook.getTitle(),library);
+        client2.borrowItemFromLibrary(testCD.getTitle(),library);
+        assertTrue(library.clientWithMostBowrrowedItems().contains(client2.getName()));
+    }
 }

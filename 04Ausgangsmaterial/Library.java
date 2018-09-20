@@ -76,5 +76,19 @@ public class Library {
         }
         return borrowers;
     }
+    public ArrayList<String> clientWithMostBowrrowedItems(){
+        int maxItemCount =0;
+        for(Client client :clients){
+            int itemCount=client.borrowedItemCount();
+            if(maxItemCount<itemCount){
+                maxItemCount=itemCount;
+            }
+        }
+        final int maxItemCountF=maxItemCount;
+        ArrayList<String> clientsWithMaxCount = new ArrayList<>();
+        clients.stream().filter(c->c.borrowedItemCount()==maxItemCountF)
+                        .forEach(c->clientsWithMaxCount.add(c.getName()));
+        return clientsWithMaxCount;
+    }
 
 }
