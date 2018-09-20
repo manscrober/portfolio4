@@ -25,18 +25,31 @@ public class Library {
     }
 
     public Item lendItem(String title,Client client){
-        if(!clients.contains(client)){
-            clients.add(client);
-        }
+        addClient(client);
         for(Item item:items){
-            if(item.getTitle().equals(title)&&itemBorrowedBy(item).isEmpty()){
+            if(item.getTitle().equals(title)&&!isLended(item)){
                 return item;
             }
         }
         return null;
     }
-    public boolean hasItem(Item item){
-        return items.contains(item);
+    private boolean isLended(Item item){
+        boolean found = false;
+        for(Client client:clients){
+            if(client.hasBorrowedItem(item)){
+                return found=true;
+            }
+        }
+        return found;
+    }
+    public boolean hasItem(String title){
+        boolean found=false;
+        for(Item item : items){
+            if (item.getTitle().equals(title)) {
+                found=true;
+            }
+        }
+        return found;
     }
     public void addClient(Client client){
         if(!clients.contains(client)) {
@@ -52,10 +65,15 @@ public class Library {
             System.out.println(item.getDetails());
         }
     }
-    public ArrayList<String> itemBorrowedBy(Item item){
-        ArrayList<String> borrowers=new ArrayList<>();
-        clients.stream().filter(c->c.hasBorrowedItem(item))
-                        .forEach(c->borrowers.add(c.getName()));
+    public ArrayList<String> itemBorrowedBy(String title){
+        ArrayList<Item> itemsFound = new ArrayList<>();
+        items.stream().filter(i->i.getTitle().equals(title)).forEach(i->itemsFound.add(i));
+
+        ArrayList<String> borrowers = new ArrayList<>();
+        for(Item item:items) {
+            clients.stream().filter(c -> c.hasBorrowedItem(item))
+                    .forEach(c -> borrowers.add(c.getName()));
+        }
         return borrowers;
     }
 

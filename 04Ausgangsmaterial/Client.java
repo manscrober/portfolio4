@@ -33,7 +33,9 @@ public class Client {
     }
 
     public void addFavouriteCategory(String category){
-	    favoriteCategories.add(category);
+	    if(category!=null) {
+			favoriteCategories.add(category);
+		}
     }
     public boolean isFavoriteCategory (String category) {
 	    return favoriteCategories.contains (category);

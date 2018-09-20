@@ -7,7 +7,6 @@ public class Item {
     private String author;
     private ArrayList<String> keywords;
 
-
     public Item (String title) {
         this.title = title;
         this.author=DEFAULT_AUTHOR;
