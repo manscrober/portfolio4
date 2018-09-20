@@ -20,7 +20,7 @@ public class Client {
 	public void returnBook (String title) {
 		Book bookToReturn = null;
 		for (Book book : borrowedBooks) {
-			if (book.caption.equals (title)) {
+			if (book.booktitle.equals (title)) {
 				bookToReturn = book;
 				break;
 			}

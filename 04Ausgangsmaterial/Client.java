@@ -17,7 +17,8 @@ public class Client {
 
 	public String getName(){return name;}
 
-	public void borrowItem(Item item) {
+	public void borrowItemFromLibrary(String title, Library library) {
+		Item item = library.lendItem(title,this);
         if (item != null) {
             borrowedItems.add(item);
         }

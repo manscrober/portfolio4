@@ -25,7 +25,6 @@ public class Test {
         library = new Library();
         testBook = new Book(EXAMPLE_TITLE);
         testCD = new CompactDisk(EXAMPLE_TITLE);
-        library.addClient(client);
         
     }
 
@@ -33,6 +32,7 @@ public class Test {
     public void addToLibrary() {
         
         ArrayList<Client> correct = new ArrayList<>();
+        library.addClient(client);
         correct.add(client);
         assertEquals(correct,library.getClients());
         assertEquals(client.getName(),library.getClients().get(0).getName());
@@ -45,7 +45,7 @@ public class Test {
     @org.junit.Test
     public void returnBook() {
         library.addItem(testBook);
-        client.borrowItem(library.getAvailableItem(testBook.getTitle()));
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
         assertTrue(client.hasBorrowedItem(testBook));
         client.returnItem(testBook);
         assertFalse(client.hasBorrowedItem(testBook));
@@ -55,12 +55,9 @@ public class Test {
         assertFalse(client.hasBorrowedItem(testBook));
         assertTrue(library.itemBorrowedBy(testBook).isEmpty());
 
-
-        Item itemToBorrow=library.getAvailableItem(testBook.getTitle());
-        assertTrue(itemToBorrow!=null);
-        client.borrowItem(itemToBorrow);
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
         client.returnItem(null);
-        assertTrue(client.hasBorrowedItem(itemToBorrow));
+        assertTrue(client.hasBorrowedItem(testBook));
     }
 
     @org.junit.Test
@@ -87,7 +84,7 @@ public class Test {
 
         library.removeItem(testBook);
         library.addItem(testBook);
-        client.borrowItem(testBook);
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
         library.removeItem(testBook);
 
         assertFalse(client.hasBorrowedItem(testBook));
@@ -95,7 +92,7 @@ public class Test {
     @org.junit.Test
     public void addAndBorrowBook(){
         library.addItem(testBook);
-        client.borrowItem(testBook);
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
         assertTrue(library.hasItem(testBook));
         assertTrue(client.hasBorrowedItem(testBook));
     }
@@ -103,7 +100,7 @@ public class Test {
     @org.junit.Test
     public void addAndBorrowCD(){
         library.addItem(testCD);
-        client.borrowItem(testCD);
+        client.borrowItemFromLibrary(testCD.getTitle(),library);
         assertTrue(library.hasItem(testCD));
         assertTrue(client.hasBorrowedItem(testCD));
     }
@@ -147,7 +144,7 @@ public class Test {
     public void bookBorrowedBy(){
         assertFalse(library.itemBorrowedBy(testBook).contains(client.getName()));
         library.addItem(testBook);
-        client.borrowItem(testBook);
+        client.borrowItemFromLibrary(testBook.getTitle(),library);
         assertTrue(library.itemBorrowedBy(testBook).contains(client.getName()));
     }
 }

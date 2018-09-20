@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="portfolio4.1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/portfolio4_1_jar</output-path>
+    <root id="archive" name="paasch_manschke_Library1.jar">
+      <element id="module-output" name="portfolio4.1" />
+      <element id="module-source" name="portfolio4.1" />
+    </root>
+  </artifact>
+</component>

@@ -169,9 +169,9 @@ public class Test {
     @org.junit.Test
     public void bookBorrowedBy(){
         setUp();
-        assertFalse(library.bookBorrowedBy(testBook.caption).contains(client.name));
+        assertFalse(library.bookBorrowedBy(testBook.booktitle).contains(client.name));
         testBook.addAndBorrowBook(library,client);
-        assertTrue(library.bookBorrowedBy(testBook.caption).contains(client.name));
+        assertTrue(library.bookBorrowedBy(testBook.booktitle).contains(client.name));
 
     }
 }

@@ -24,7 +24,10 @@ public class Library {
         items.remove(item);
     }
 
-    public Item getAvailableItem(String title){
+    public Item lendItem(String title,Client client){
+        if(!clients.contains(client)){
+            clients.add(client);
+        }
         for(Item item:items){
             if(item.getTitle().equals(title)&&itemBorrowedBy(item).isEmpty()){
                 return item;
